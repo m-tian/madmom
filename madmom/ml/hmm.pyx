@@ -448,11 +448,11 @@ class HiddenMarkovModel(object):
         cdef uint32_t [::1] tm_states = tm.states
         cdef uint32_t [::1] tm_pointers = tm.pointers
         cdef double [::1] tm_probabilities = tm.log_probabilities
-        cdef unsigned int num_states = tm.num_states
+        cdef int num_states = tm.num_states
 
         # observation model stuff
         om = self.observation_model
-        cdef unsigned int num_observations = len(observations)
+        cdef int num_observations = <int>len(observations)
         cdef uint32_t [::1] om_pointers = om.pointers
         cdef double [:, ::1] om_densities = om.log_densities(observations)
 
@@ -468,7 +468,7 @@ class HiddenMarkovModel(object):
                                                        num_states),
                                                       dtype=np.uint32)
         # define counters etc.
-        cdef unsigned int state, frame, prev_state, pointer
+        cdef int state, frame, prev_state, pointer
         cdef double density, transition_prob
 
         # iterate over all observations
@@ -486,8 +486,8 @@ class HiddenMarkovModel(object):
                 # iterate over all possible previous states
                 # the tm_pointers array holds pointers to the states which are
                 # stored in the tm_states array
-                for pointer in range(tm_pointers[state],
-                                     tm_pointers[state + 1]):
+                for pointer in range(<int>tm_pointers[state],
+                                     <int>tm_pointers[state + 1]):
                     # get the previous state
                     prev_state = tm_states[pointer]
                     # weight the previous state with the transition probability
@@ -553,13 +553,13 @@ class HiddenMarkovModel(object):
         cdef uint32_t [::1] tm_states = tm.states
         cdef uint32_t [::1] tm_pointers = tm.pointers
         cdef double [::1] tm_probabilities = tm.probabilities
-        cdef unsigned int num_states = tm.num_states
+        cdef int num_states = tm.num_states
 
         # observation model stuff
         om = self.observation_model
         cdef uint32_t [::1] om_pointers = om.pointers
         cdef double [:, ::1] om_densities = om.densities(observations)
-        cdef unsigned int num_observations = len(om_densities)
+        cdef int num_observations = <int>len(om_densities)
 
         # reset HMM
         if reset:
@@ -571,7 +571,7 @@ class HiddenMarkovModel(object):
                                            dtype=np.float)
 
         # define counters etc.
-        cdef unsigned int prev_pointer, frame, state
+        cdef int prev_pointer, frame, state
         cdef double prob_sum, norm_factor
 
         # iterate over all observations
@@ -581,8 +581,8 @@ class HiddenMarkovModel(object):
             # iterate over all states
             for state in range(num_states):
                 # sum over all possible predecessors
-                for prev_pointer in range(tm_pointers[state],
-                                          tm_pointers[state + 1]):
+                for prev_pointer in range(<int>tm_pointers[state],
+                                          <int>tm_pointers[state + 1]):
                     fwd[frame, state] += (fwd_prev[tm_states[prev_pointer]] *
                                           tm_probabilities[prev_pointer])
                 # multiply with the observation probability
@@ -630,11 +630,11 @@ class HiddenMarkovModel(object):
         cdef uint32_t [::1] tm_states = tm.states
         cdef uint32_t [::1] tm_ptrs = tm.pointers
         cdef double [::1] tm_probabilities = tm.probabilities
-        cdef unsigned int num_states = tm.num_states
+        cdef int num_states = tm.num_states
 
         # observation model stuff
         om = self.observation_model
-        cdef unsigned int num_observations = len(observations)
+        cdef int num_observations = <int>len(observations)
         cdef uint32_t [::1] om_pointers = om.pointers
         cdef double [:, ::1] om_densities
 
@@ -643,8 +643,8 @@ class HiddenMarkovModel(object):
         cdef double[::1] fwd_prev = self.initial_distribution.copy()
 
         # define counters etc.
-        cdef unsigned int prev_pointer, state
-        cdef unsigned int obs_start, obs_end, frame, block_sz
+        cdef int prev_pointer, state
+        cdef int obs_start, obs_end, frame, block_sz
         cdef double prob_sum, norm_factor
 
         # keep track which observations om_densities currently contains
@@ -672,7 +672,8 @@ class HiddenMarkovModel(object):
             # iterate over all states
             for state in range(num_states):
                 # sum over all possible predecessors
-                for prev_pointer in range(tm_ptrs[state], tm_ptrs[state + 1]):
+                for prev_pointer in range(<int>tm_ptrs[state],
+                                          <int>tm_ptrs[state + 1]):
                     fwd_cur[state] += fwd_prev[tm_states[prev_pointer]] * \
                                       tm_probabilities[prev_pointer]
                 # multiply with the observation probability
