@@ -171,11 +171,11 @@ def viterbi(float [::1] pi, float[::1] transition, float[::1] norm_factor,
 
     """
     # number of states
-    cdef int num_st = activations.shape[0]
+    cdef int num_st = <int>activations.shape[0]
     # number of transitions
-    cdef int num_tr = transition.shape[0]
+    cdef int num_tr = <int>transition.shape[0]
     # number of beat variables
-    cdef int num_x = num_st / tau
+    cdef int num_x = <int>(num_st / tau)
 
     # current viterbi variables
     cdef float [::1] v_c = np.empty(num_st, dtype=np.float32)
@@ -197,7 +197,7 @@ def viterbi(float [::1] pi, float[::1] transition, float[::1] norm_factor,
     # iterate over all beats; the 1st beat is given by prior
     for k in range(num_x - 1):
         # reset all current viterbi variables
-        v_c[:] = -INFINITY
+        v_c[:] = <float>-INFINITY
 
         # find the best transition for each state i
         for i in range(num_st):
@@ -213,7 +213,7 @@ def viterbi(float [::1] pi, float[::1] transition, float[::1] norm_factor,
                 # we can skip adding norm_factor[i - j] for each v_p[i - j].
                 new_prob = v_p[i - j] + transition[j]
                 if new_prob > v_c[i]:
-                    v_c[i] = new_prob
+                    v_c[i] = <float>new_prob
                     bps[k, i] = i - j
 
             # Add activation and norm_factor. For the last random variable,
