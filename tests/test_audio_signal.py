@@ -401,7 +401,7 @@ class TestResampleFunction(unittest.TestCase):
         self.assertEqual(result.dtype, np.float32)
         self.assertEqual(result.num_channels, self.signal_float.num_channels)
         self.assertTrue(np.allclose(result.length, self.signal_float.length))
-        self.assertTrue(np.allclose(result[:6], self.float_target))
+        self.assertTrue(np.allclose(result[:6], self.float_target, atol=1e-4))
 
     def test_values_stereo(self):
         result = resample(self.stereo_signal, 22050)
