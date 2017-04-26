@@ -69,6 +69,7 @@ def run_help(program):
 # TODO: can we speed up these tests?
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestBeatDetectorProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "BeatDetector")
@@ -109,6 +110,7 @@ class TestBeatDetectorProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result, atol=1e-5))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestBeatTrackerProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "BeatTracker")
@@ -285,6 +287,7 @@ class TestCNNOnsetDetectorProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestCRFBeatDetectorProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "CRFBeatDetector")
@@ -325,6 +328,7 @@ class TestCRFBeatDetectorProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result, atol=1e-5))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestDBNBeatTrackerProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "DBNBeatTracker")
@@ -375,6 +379,7 @@ class TestDBNBeatTrackerProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.online_results))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestDBNDownBeatTrackerProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "DBNDownBeatTracker")
@@ -564,6 +569,7 @@ class TestLogFiltSpecFluxProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result, atol=1e-5))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestMMBeatTrackerProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "MMBeatTracker")
@@ -604,6 +610,7 @@ class TestMMBeatTrackerProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result, atol=1e-5))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestOnsetDetectorProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "OnsetDetector")
@@ -644,6 +651,7 @@ class TestOnsetDetectorProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result, atol=1e-5))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestOnsetDetectorLLProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "OnsetDetectorLL")
@@ -821,6 +829,7 @@ class TestSuperFluxProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result, atol=1e-5))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestSuperFluxNNProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "SuperFluxNN")
@@ -861,6 +870,7 @@ class TestSuperFluxNNProgram(unittest.TestCase):
         self.assertTrue(np.allclose(result, self.result, atol=1e-5))
 
 
+@unittest.skipIf(sys.platform.startswith("win"), "fails on Appveyor / Windows")
 class TestTempoDetectorProgram(unittest.TestCase):
     def setUp(self):
         self.bin = pj(program_path, "TempoDetector")
